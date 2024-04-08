@@ -1,0 +1,29 @@
+﻿@page
+@model IdentityUsersModel
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
+<p>Admin Page</p>
+<br>
+<a class="btn btn-primary" asp-page="identityusers">Go to Identity Users Page</a>
+
+
+@functions {
+    [Authorize]
+
+    public class IdentityUsersModel : PageModel
+    {
+        private UserManager<IdentityUser> userManager;
+
+        public IdentityUsersModel(UserManager<IdentityUser> mgr)
+        {
+            userManager = mgr;
+        }
+
+        public IdentityUser? AdminUser { get; set; } = new();
+
+        public async Task OnGetAsync()
+        {
+            AdminUser = await userManager.FindByNameAsync("Admin");
+        }
+    }
+}
